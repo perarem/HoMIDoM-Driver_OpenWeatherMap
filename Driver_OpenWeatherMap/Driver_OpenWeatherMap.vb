@@ -556,7 +556,7 @@ Imports System.Threading
                         Select Case _child.Name
                             Case "temperature"
                                 _Obj.TemperatureActuel = Int(Replace(_child.Attributes.GetNamedItem("value").Value, ".", ","))
-                                _StrTemp = _child.Attributes.GetNamedItem("value").Value
+                                _StrTemp = Int(Replace(_child.Attributes.GetNamedItem("value").Value, ".", ","))
                                 _Server.Log(TypeLog.DEBUG, TypeSource.DRIVER, "METEO_OpenWeatherMap", "Lecture du paramètre TEMPERATURE : " & _StrTemp)
                             Case "weather"
                                 _Obj.ConditionActuel = _child.Attributes.GetNamedItem("value").Value
@@ -565,7 +565,7 @@ Imports System.Threading
                                 _Server.Log(TypeLog.DEBUG, TypeSource.DRIVER, "METEO_OpenWeatherMap", "Lecture du paramètre IconActuel : " & _Obj.IconActuel)
                             Case "humidity"
                                 _Obj.HumiditeActuel = Int(Replace(_child.Attributes.GetNamedItem("value").Value, ".", ","))
-                                _StrHum = _child.Attributes.GetNamedItem("value").Value
+                                _StrHum = Int(Replace(_child.Attributes.GetNamedItem("value").Value, ".", ","))
                                 _Server.Log(TypeLog.DEBUG, TypeSource.DRIVER, "METEO_OpenWeatherMap", "Lecture du paramètre HUMIDITE : " & _StrHum)
                             Case "pressure"
                                 _StrBar = _child.Attributes.GetNamedItem("value").Value
@@ -576,10 +576,9 @@ Imports System.Threading
                                         Case "speed"
                                             If _Obj IsNot Nothing Then
                                                 _Obj.VentActuel = Int(Replace(_child2.Attributes.GetNamedItem("value").Value, ".", ",") * 3600 / 1000)
-                                                '_Obj.VentActuel = _child2.Attributes.GetNamedItem("value").Value
                                                 _Server.Log(TypeLog.DEBUG, TypeSource.DRIVER, "METEO_OpenWeatherMap", "Lecture du paramètre VentActuel : " & _Obj.VentActuel)
                                             End If
-                                            _StrVitVent = _child2.Attributes.GetNamedItem("value").Value
+                                            _StrVitVent = Int(Replace(_child2.Attributes.GetNamedItem("value").Value, ".", ",") * 3600 / 1000)
                                             _Server.Log(TypeLog.DEBUG, TypeSource.DRIVER, "METEO_OpenWeatherMap", "Lecture du paramètre VITESSEVENT : " & _StrVitVent)
                                         Case "direction"
                                             _StrDirVent = _child2.Attributes.GetNamedItem("name").Value

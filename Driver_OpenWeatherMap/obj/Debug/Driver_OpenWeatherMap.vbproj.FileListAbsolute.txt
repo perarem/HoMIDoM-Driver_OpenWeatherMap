@@ -8,3 +8,13 @@ C:\Users\Pierre\Documents\GitHub\MesDrivers\Driver_OpenWeatherMap\obj\Debug\Driv
 C:\Users\Pierre\Documents\GitHub\MesDrivers\Driver_OpenWeatherMap\obj\Debug\Driver_OpenWeatherMap.dll
 C:\Users\Pierre\Documents\GitHub\MesDrivers\Driver_OpenWeatherMap\obj\Debug\Driver_OpenWeatherMap.xml
 C:\Users\Pierre\Documents\GitHub\MesDrivers\Driver_OpenWeatherMap\obj\Debug\Driver_OpenWeatherMap.pdb
+C:\Users\Pierre\Documents\GitHub\MesDrivers\DEBUG\Drivers\Traduction_FR.xml
+C:\Users\Pierre\Documents\GitHub\MesDrivers\DEBUG\Drivers\Driver_OpenWeatherMap.dll
+C:\Users\Pierre\Documents\GitHub\MesDrivers\DEBUG\Drivers\Driver_OpenWeatherMap.pdb
+C:\Users\Pierre\Documents\GitHub\MesDrivers\DEBUG\Drivers\Driver_OpenWeatherMap.xml
+C:\Users\Pierre\Documents\GitHub\MesDrivers\HoMIDoM-OpenWeatherMap\Driver_OpenWeatherMap\obj\Debug\Driver_OpenWeatherMap.vbprojResolveAssemblyReference.cache
+C:\Users\Pierre\Documents\GitHub\MesDrivers\HoMIDoM-OpenWeatherMap\Driver_OpenWeatherMap\obj\Debug\Driver_OpenWeatherMap.Resources.resources
+C:\Users\Pierre\Documents\GitHub\MesDrivers\HoMIDoM-OpenWeatherMap\Driver_OpenWeatherMap\obj\Debug\Driver_OpenWeatherMap.vbproj.GenerateResource.Cache
+C:\Users\Pierre\Documents\GitHub\MesDrivers\HoMIDoM-OpenWeatherMap\Driver_OpenWeatherMap\obj\Debug\Driver_OpenWeatherMap.dll
+C:\Users\Pierre\Documents\GitHub\MesDrivers\HoMIDoM-OpenWeatherMap\Driver_OpenWeatherMap\obj\Debug\Driver_OpenWeatherMap.xml
+C:\Users\Pierre\Documents\GitHub\MesDrivers\HoMIDoM-OpenWeatherMap\Driver_OpenWeatherMap\obj\Debug\Driver_OpenWeatherMap.pdb
