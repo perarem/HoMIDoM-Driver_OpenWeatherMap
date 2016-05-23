@@ -869,38 +869,39 @@ Imports System.Threading
             Dim xReader As XmlReader
             Dim xDoc As XElement
 
-            If System.IO.File.Exists(Server.GetRepertoireOfServer & "\Fichiers\WPF_Icon.xml") = False Then
-                Dim xmlName2 As String = ".WPF_Icon.xml"
-                ' get the current executing assembly, and append the resources name
-                Dim strResources2 As String = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name & xmlName2
-                ' use stream to load up the resources
-                Using s As IO.Stream = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream(strResources2)
-
-                    'use xmlreader to create in-memory xml structured
-                    xReader = XmlReader.Create(s)
-
-                    xDoc = XElement.Load(xReader)
-                    xDoc.Save(Server.GetRepertoireOfServer & "\Fichiers\WPF_Icon.xml")
-                    xReader.Close()
-                End Using
-            Else
+            '            If System.IO.File.Exists(Server.GetRepertoireOfServer & "\Fichiers\WPF_Icon.xml") = False Then
+            '                Dim xmlName2 As String = ".WPF_Icon.xml"
+            '                ' get the current executing assembly, and append the resources name
+            '                Dim strResources2 As String = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name & xmlName2
+            '                ' use stream to load up the resources
+            '                Using s As IO.Stream = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream(strResources2)
+            '
+            '                    'use xmlreader to create in-memory xml structured
+            '                    xReader = XmlReader.Create(s)
+            '
+            '                    xDoc = XElement.Load(xReader)
+            '                    xDoc.Save(Server.GetRepertoireOfServer & "\Fichiers\WPF_Icon.xml")
+            '                    xReader.Close()
+            '                End Using
+            '            Else
+            If System.IO.File.Exists(Server.GetRepertoireOfServer & "\Fichiers\WPF_Icon.xml") = True Then
                 xReader = XmlReader.Create(Server.GetRepertoireOfServer & "\Fichiers\WPF_Icon.xml")
                 xDoc = XElement.Load(xReader)
                 xReader.Close()
+ 
+                Dim employees As IEnumerable(Of XElement) = xDoc.Elements()
+                For Each employee In employees
+                    If employee.Element("Driver").Value.ToLower = _txt Then
+                        _return = employee.Element("WPF_Icon").Value
+                        Exit For
+                    End If
+                Next employee
+                Return _return
+            Else
+                _Server.Log(TypeLog.ERREUR, TypeSource.DRIVER, "METEO_OpenWeatherMap", "Fichier WPF_Icon.xml introuvable !")
+                Return ""
             End If
 
-            'xDoc = XElement.Load(xReader)
-            Dim employees As IEnumerable(Of XElement) = xDoc.Elements()
-
-            For Each employee In employees
-                If employee.Element("Driver").Value.ToLower = _txt Then
-                    _return = employee.Element("WPF_Icon").Value
-                    Exit For
-                End If
-            Next employee
-
-            'End Using
-            Return _return
         Catch ex As Exception
             _Server.Log(TypeLog.DEBUG, TypeSource.DRIVER, "METEO_OpenWeatherMap", "Erreur GetIcon : " & ex.ToString)
             Return ""
