@@ -561,7 +561,8 @@ Imports System.Threading
                             Case "weather"
                                 _Obj.ConditionActuel = _child.Attributes.GetNamedItem("value").Value
                                 _Server.Log(TypeLog.DEBUG, TypeSource.DRIVER, "METEO_OpenWeatherMap", "Lecture du paramètre ConditionActuel : " & _Obj.ConditionActuel)
-                                _Obj.IconActuel = _child.Attributes.GetNamedItem("icon").Value
+                                '_Obj.IconActuel = _child.Attributes.GetNamedItem("icon").Value
+                                _Obj.IconActuel = GetIcon(_child.Attributes.GetNamedItem("number").Value)
                                 _Server.Log(TypeLog.DEBUG, TypeSource.DRIVER, "METEO_OpenWeatherMap", "Lecture du paramètre IconActuel : " & _Obj.IconActuel)
                             Case "humidity"
                                 _Obj.HumiditeActuel = Int(Replace(_child.Attributes.GetNamedItem("value").Value, ".", ","))
@@ -663,6 +664,8 @@ Imports System.Threading
                                                         If _Obj IsNot Nothing Then
                                                             _Obj.IconToday = _child2.Attributes.GetNamedItem("var").Value
                                                             _Obj.ConditionToday = _child2.Attributes.GetNamedItem("name").Value
+                                                            '_Obj.IconToday = _child2.Attributes.GetNamedItem("var").Value
+                                                            _Obj.IconToday = GetIcon(_child2.Attributes.GetNamedItem("number").Value)
                                                             _Server.Log(TypeLog.DEBUG, TypeSource.DRIVER, "METEO_OpenWeatherMap", "Symbol : " & _child2.Attributes.GetNamedItem("var").Value)
                                                             _Server.Log(TypeLog.DEBUG, TypeSource.DRIVER, "METEO_OpenWeatherMap", "Temp : " & _child2.Attributes.GetNamedItem("name").Value)
                                                         End If
@@ -670,6 +673,8 @@ Imports System.Threading
                                                         If _Obj IsNot Nothing Then
                                                             _Obj.IconJ1 = _child2.Attributes.GetNamedItem("var").Value
                                                             _Obj.ConditionJ1 = _child2.Attributes.GetNamedItem("name").Value
+                                                            '_Obj.IconJ1 = _child2.Attributes.GetNamedItem("var").Value
+                                                            _Obj.IconJ1 = GetIcon(_child2.Attributes.GetNamedItem("number").Value)
                                                             _Server.Log(TypeLog.DEBUG, TypeSource.DRIVER, "METEO_OpenWeatherMap", "Symbol : " & _child2.Attributes.GetNamedItem("var").Value)
                                                             _Server.Log(TypeLog.DEBUG, TypeSource.DRIVER, "METEO_OpenWeatherMap", "Temp : " & _child2.Attributes.GetNamedItem("name").Value)
                                                         End If
@@ -677,6 +682,8 @@ Imports System.Threading
                                                         If _Obj IsNot Nothing Then
                                                             _Obj.IconJ2 = _child2.Attributes.GetNamedItem("var").Value
                                                             _Obj.ConditionJ2 = _child2.Attributes.GetNamedItem("name").Value
+                                                            '_Obj.IconJ2 = _child2.Attributes.GetNamedItem("var").Value
+                                                            _Obj.IconJ2 = GetIcon(_child2.Attributes.GetNamedItem("number").Value)
                                                             _Server.Log(TypeLog.DEBUG, TypeSource.DRIVER, "METEO_OpenWeatherMap", "Symbol : " & _child2.Attributes.GetNamedItem("var").Value)
                                                             _Server.Log(TypeLog.DEBUG, TypeSource.DRIVER, "METEO_OpenWeatherMap", "Temp : " & _child2.Attributes.GetNamedItem("name").Value)
                                                         End If
@@ -684,6 +691,8 @@ Imports System.Threading
                                                         If _Obj IsNot Nothing Then
                                                             _Obj.IconJ3 = _child2.Attributes.GetNamedItem("var").Value
                                                             _Obj.ConditionJ3 = _child2.Attributes.GetNamedItem("name").Value
+                                                            '_Obj.IconJ3 = _child2.Attributes.GetNamedItem("var").Value
+                                                            _Obj.IconJ3 = GetIcon(_child2.Attributes.GetNamedItem("number").Value)
                                                             _Server.Log(TypeLog.DEBUG, TypeSource.DRIVER, "METEO_OpenWeatherMap", "Symbol : " & _child2.Attributes.GetNamedItem("var").Value)
                                                             _Server.Log(TypeLog.DEBUG, TypeSource.DRIVER, "METEO_OpenWeatherMap", "Temp : " & _child2.Attributes.GetNamedItem("name").Value)
                                                         End If
@@ -849,6 +858,51 @@ Imports System.Threading
             Return _return
         Catch ex As Exception
             _Server.Log(TypeLog.DEBUG, TypeSource.DRIVER, "METEO_OpenWeatherMap", "Erreur Traduct: " & ex.ToString)
+            Return ""
+        End Try
+    End Function
+
+    Public Function GetIcon(Txt As String) As String
+        Try
+            Dim _txt As String = Trim(Txt).ToLower.Replace("  ", " ")
+            Dim _return As String = ""
+            Dim xReader As XmlReader
+            Dim xDoc As XElement
+
+            If System.IO.File.Exists(Server.GetRepertoireOfServer & "\Fichiers\WPF_Icon.xml") = False Then
+                Dim xmlName2 As String = ".WPF_Icon.xml"
+                ' get the current executing assembly, and append the resources name
+                Dim strResources2 As String = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name & xmlName2
+                ' use stream to load up the resources
+                Using s As IO.Stream = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream(strResources2)
+
+                    'use xmlreader to create in-memory xml structured
+                    xReader = XmlReader.Create(s)
+
+                    xDoc = XElement.Load(xReader)
+                    xDoc.Save(Server.GetRepertoireOfServer & "\Fichiers\WPF_Icon.xml")
+                    xReader.Close()
+                End Using
+            Else
+                xReader = XmlReader.Create(Server.GetRepertoireOfServer & "\Fichiers\WPF_Icon.xml")
+                xDoc = XElement.Load(xReader)
+                xReader.Close()
+            End If
+
+            'xDoc = XElement.Load(xReader)
+            Dim employees As IEnumerable(Of XElement) = xDoc.Elements()
+
+            For Each employee In employees
+                If employee.Element("Driver").Value.ToLower = _txt Then
+                    _return = employee.Element("WPF_Icon").Value
+                    Exit For
+                End If
+            Next employee
+
+            'End Using
+            Return _return
+        Catch ex As Exception
+            _Server.Log(TypeLog.DEBUG, TypeSource.DRIVER, "METEO_OpenWeatherMap", "Erreur GetIcon : " & ex.ToString)
             Return ""
         End Try
     End Function
