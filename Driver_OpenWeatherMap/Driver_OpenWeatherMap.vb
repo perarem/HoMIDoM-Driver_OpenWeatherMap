@@ -582,7 +582,7 @@ Imports System.Threading
                                             _StrVitVent = Int(Replace(_child2.Attributes.GetNamedItem("value").Value, ".", ",") * 3600 / 1000)
                                             _Server.Log(TypeLog.DEBUG, TypeSource.DRIVER, "METEO_OpenWeatherMap", "Lecture du paramètre VITESSEVENT : " & _StrVitVent)
                                         Case "direction"
-                                            _StrDirVent = _child2.Attributes.GetNamedItem("name").Value
+                                            _StrDirVent = Replace(_child2.Attributes.GetNamedItem("code").Value, "W", "O")
                                             _Server.Log(TypeLog.DEBUG, TypeSource.DRIVER, "METEO_OpenWeatherMap", "Lecture du paramètre DIRECTIONVENT : " & _StrDirVent)
                                     End Select
                                 Next
