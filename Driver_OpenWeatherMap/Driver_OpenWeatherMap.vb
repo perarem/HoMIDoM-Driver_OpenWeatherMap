@@ -337,6 +337,7 @@ Imports System.Text
                     .Formatting = Formatting.Indented
                     .WriteStartDocument()
                     .WriteStartElement("Weather")
+                    .WriteElementString("Version", "1.3.0.2")
                     .WriteStartElement("label")
                     .WriteElementString("Driver", "200")
                     .WriteElementString("WPF_Icon", "thunderstorm")
